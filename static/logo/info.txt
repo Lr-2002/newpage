@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Sriracha-Regular
+font link: https://fonts.google.com/specimen/Sriracha
+font author: Cadson Demak
+font author site: http://font.cadsondemak.com/foundry/
+Slogan Font: Aleo-Light.otf
+
+icon designer: Alfredo @ IconsAlfredo.com
+icon designer link: /AlfredoCreates
+        
+{"bg":"#E1EFF7","icon-gradient-0":"#006678","icon-gradient-1":"#4FA8FF","font":"#0D2633","slogan":"#213a47"}
+      

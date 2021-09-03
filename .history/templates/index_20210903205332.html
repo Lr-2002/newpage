@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<p>{{movie|length}} Titles</p>
+
+<ul class="movie-list">
+    {% for movie in movies %}
+    <li> {{movie.title}} - {{movie.year}}
+        <span class = 'float-right'>
+            <a class ='imdb' href="https://www.imdb.com/find?q={{ movie.title }}" target="_blank" title =" Find this movie on IMDB">IMDB</a>
+
+        </span>
+ 
+    </li>
+    {%endfor%}
+</ul>
+<img alt = 'Walking Totoro' class = 'totoro' src ="{{url_for('static',filename = 'logo/default.png')">
+{%endblock%}

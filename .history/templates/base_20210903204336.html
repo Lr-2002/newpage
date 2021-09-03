@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        {% block head %}
+        <meta charset = 'utf-8'>
+        <meta name = 'viewport' content='width=device-width , initial-scale =1.0'>
+        <title > {{user.name}}'s Watchlist</title>
+        <link rel = 'icon' href ="{{url_for('static',filename='logo/vector/logo.svg')}}" >
+        <link rel='stylesheet' href = "{{url_for('static',filename='css/index.css')}}">
+        {%endblock%}
+    </head>
+
+    <body>
+        <h2>
+            <img alt = 'Avatar' class ='avatar' src = " {{url_for('static',filename='logo/vector/logo.svg') }} ">
+            {{user.naem }}'s Watchlist
+        </h2>
+        <nav>
+            <ul>
+                <li><a href = "{{url_for('index') }}
+        </li>
+            </ul>
+        </nav>
+    </body>
+</html>
