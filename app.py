@@ -1,30 +1,22 @@
-from flask import Flask ,render_template,url_for
+from flask import Flask, render_template, url_for, request, redirect, flash
 
 from flask_sqlalchemy import SQLAlchemy
 
 import os
 
-import sys
-
 import click
-
-
-
 app = Flask(__name__)
-
-
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path,'data.db')   
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os\
+    .path.join(app.root_path, 'data.db')
 #   / / / / 是文件的绝对路径
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =False
-
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'dev'
 db = SQLAlchemy(app)
 
 
 @app.cli.command()
-@click.option('--drop',is_flag=True,help = 'Create after drop.')
+@click.option('--drop', is_flag=True, help = 'Create after drop.')
 def initdb(drop):
     if drop:
         db.drop_all()
@@ -72,16 +64,43 @@ def forge():
     db.session.commit()
     click.echo('Done.')
 
-@app.route('/')
+@app.route('/movie/edit/<int:movie_id>',methods=['GET','POST'])
+def edit(movie_id):
+    movie = Movie.query.get_or_404(movie_id)
+
+    if request.method == 'POST':
+        title = request.form['title']
+        year = request.form['year']
+
+        if not title or not year or len(year) != 4 or title > 60:
+            flash('Invalid data')
+            return redirect(url_for('edit', movie_id = movie_id))
+        movie.title = title
+        movie.year = year
+        # db.session.add(movie)
+        db.session.commit()
+        flash('Item created')
+        return redirect(url_for('index'))
+    return render_template('edit.html', movie=movie)
+
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    # user  = User.query.first()
+    if request.method == 'POST':
+        title = request.form.get('title')
+        year = request.form.get('year')
+        if not title or not year or len(year) != 4 or len(title) > 60:
+            flash('Invalid request')
+            return redirect(url_for('index'))
+        movie = Movie(title=title, year=year)
+        db.session.add(movie)
+        db.session.commit()
+        flash('Item created')
+        return redirect(url_for('index'))
+
     movies = Movie.query.all()
+    return render_template('index.html', movies=movies)
 
-    return render_template('index.html' ,movies = movies)
-
-
-# if __name__ == '__main__':
-#     app.run()
 @app.errorhandler(404)
 def page_not_found(e):
     user = User.query.first()

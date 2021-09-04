@@ -2,3 +2,4 @@
 # abandon the db file which is not cross platform
 
 /__pycache__
+/.history
