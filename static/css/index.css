@@ -70,7 +70,8 @@ nav li a:hover {
     background-color: #111;
 }
 .float-right {
-    float: right;
+    display: inline-block;
+    /* float: right; */
 }
 
 .imdb {
@@ -120,4 +121,9 @@ input[name=year] {
     background-color: #cce5ff;
     border-color: #b8daff;
     border-radius: 5px;
+}
+
+.inline-form {
+    display: inline;
+    padding-right: 20px;
 }
