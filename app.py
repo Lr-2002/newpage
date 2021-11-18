@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 import os
 
-from flask_login import LoginManager, login_required, logout_user, current_user
+from flask_login import LoginManager, login_required, logout_user, current_user, UserMixin, login_user
 
 import click
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,18 +20,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os\
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'dev'
 db = SQLAlchemy(app)
-
+print(dir(db.Model))
 
 @app.cli.command()
 @click.option('--drop', is_flag=True, help = 'Create after drop.')
 def initdb(drop):
+    print('trying to drop the db')
     if drop:
         db.drop_all()
     db.create_all()
     click.echo('Initialize database.')
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     """User is a database user"""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20))
@@ -70,7 +71,7 @@ def forge():
         {'title': 'The Pork of Music', 'year': '2012'},
     ]
 
-    # user = User(name=name)
+    user = User(name=name)
     db.session.add(user)
     for m in movies:
         movie = Movie(title=m['title'], year=m['year'])
@@ -167,10 +168,11 @@ def admin(username, password):
 
 
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+# login_manager.login_view = 'login'
 @login_manager.user_loader
-def login_user(user_id):
-    user =  User.query.get(int(user_id))
+def load_user(user_id):
+    user = User.query.get(int(user_id))
+    # print("--------------------------user info ---------------------------------\n",user)
     return user
 
 
@@ -181,12 +183,13 @@ def login():
         password = request.form['password']
 
         if not username or not password:
-            flash('Invalid request on username or password,Please check it out')
+            flash('Invalid username or password,Please check it out')
             return redirect(url_for('login'))
 
         user = User.query.first()
 
         if username == user.username and user.validate_password(password):
+            print(user)
             login_user(user)
             flash('Successfully logged in')
             return redirect(url_for('index'))
