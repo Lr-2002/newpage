@@ -90,13 +90,13 @@ def edit(movie_id):
         year = request.form['year']
 
         if not title or not year or len(year) != 4 or len(title) > 60:
-            flash('Invalid data')
+            flash('Invalid input.')
             return redirect(url_for('edit', movie_id = movie_id))
         movie.title = title
         movie.year = year
         # db.session.add(movie)
         db.session.commit()
-        flash('Item created')
+        flash('Item updated.')
         return redirect(url_for('index'))
     return render_template('edit.html', movie=movie)
 
@@ -112,18 +112,18 @@ def delete(movie_id):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        if not current_user.is_authenticated():
+        if not current_user.is_authenticated:
             flash('You are not authenticated,Please re-login')
             return redirect(url_for('index'))
         title = request.form.get('title')
         year = request.form.get('year')
         if not title or not year or len(year) != 4 or len(title) > 60:
-            flash('Invalid request')
+            flash('Invalid input.')
             return redirect(url_for('index'))
         movie = Movie(title=title, year=year)
         db.session.add(movie)
         db.session.commit()
-        flash('Item created')
+        flash('Item created.')
         return redirect(url_for('index'))
 
     movies = Movie.query.all()
