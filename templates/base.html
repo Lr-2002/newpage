@@ -19,26 +19,16 @@
         <h2>
             <img alt = 'Avatar' class ='avatar' src = " {{url_for('static',filename='logo/vector/black.svg') }} ">
             {{user.name}}'s BookList
+
         </h2>
 
 
-        <button >
-            <a href="{{ url_for('login') }}" />
 
-            login</button>
-        <button>
-            <a href="{{ url_for('logout') }}"/>
-            logout
-        </button>
-
-        <button>
-            <a href="{{ url_for('settings') }}"/>
-            Settings
-        </button>
-        <nav>
-            <ul>
-                <li><a href = "{{url_for('index') }}">home</a></li>
-            </ul>
+        <nav class="nav">
+            <div class="list"><a href = "{{url_for('index') }}">home</a></div>
+            <div class="list"><a href="{{ url_for('login') }}">login</a></div>
+            <div class="list"><a href="{{ url_for('logout') }}">logout</a></div>
+            <div class="list"><a href="{{ url_for('settings') }}">Settings</a></div>
         </nav>
         {%block content %}{%endblock%}
         <footer >

@@ -46,6 +46,20 @@ footer {
     margin: 0 auto;
     height: 100px;
 }
+.nav{
+    display: -webkit-box;
+    display: flex;
+    height: 50px;
+    justify-content: space-around;
+    background-color: #888888;
+}
+.nav .list{
+    display: flex;
+    margin: auto;
+    /*border: #E5DCC3;*/
+    border-block: #C7BEA2;
+    background-color: #C7BEA2;
+}
 nav ul {
     list-style-type: none;
     margin: 0;
